@@ -1,0 +1,48 @@
+<main class="py-5">
+  <section>
+    <div class="container">
+      <!-- Display set name dynamically -->
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <!-- <h4 class="mb-0">{{ setData.value.name || 'Set Name' }}</h4> -->
+        <span>{{ progressPercentage }}%</span>
+      </div>
+      <!-- Dynamic progress bar -->
+      <div class="progress mb-5" role="progressbar" 
+        :aria-valuenow="progressPercentage"
+        aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
+      </div>
+
+      <div class="mb-4">
+        <!-- Show current lesson content -->
+        <p class="mb-4">
+          {{ currentLesson.value && currentLesson.value.content || '[Lesson content text]' }}
+        </p>
+
+        <div>
+          <!-- Assuming the lesson has a list of quiz options -->
+          <div v-for="(option, index) in currentLesson.value?.options || []" :key="index" class="my-2">
+            <input type="radio" :id="'choice-' + index" name="answer" class="input-choice" 
+              v-model="currentLesson.value.selectedOption" :value="option.id" />
+            <label :for="'choice-' + index" class="card">
+              <div class="card-body">
+                {{ option.text }}
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Button to check answer. Here you would pass the appropriate content and option IDs.
+              You may need to adjust this to match how your lessons/options are structured. -->
+          <button @click="checkAnswer(currentLesson.value.content_id, currentLesson.value.selectedOption)" class="btn btn-primary w-100 mt-2">
+            Check
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
